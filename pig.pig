@@ -47,26 +47,24 @@ capitalbikedateweek_01 = foreach capitalbikedate generate
 
 bikeweek = GROUP  capitalbikedateweek_01 BY (Bike_number,Start_date_wy,Start_date_w);
 
-stationweek = GROUP  capitalbikedateweek_01 BY (Start_station_number,Start_date_wy,Start_date_w);
-
 bikeweek_duration_SUM = FOREACH bikeweek GENERATE group, SUM(capitalbikedateweek_01.Duration) as SUM;
 
-stationweek_COUNT = FOREACH stationweek GENERATE group, COUNT(capitalbikedateweek_01.Bike_number) as COUNT;
+station_week = GROUP bike_rental_week BY (Start_station_number, Start_station, Start_date_wy, Start_date_w);
 
-station_week = FOREACH stationweek { 
-    casualM = FILTER capitalbikedateweek_01 BY Member_type == 'Casual';
-    memberM = FILTER capitalbikedateweek_01 BY Member_type == 'Member';
+station_week_use = FOREACH station_week { 
+    casual_member = FILTER capitalbikedateweek_01 BY Member_type == 'Casual';
+    member_member = FILTER capitalbikedateweek_01 BY Member_type == 'Member';
     GENERATE 
-        Start_date_wy as Start_date_wy, 
-        Start_date_w as Start_date_w, 
-        Start_station_number as station_number, 
-        Start_station as station_name,
-        COUNT(casualM) as casuals,
-        COUNT(memberM) as members,
+        group.Start_date_wy as Start_date_wy, 
+        group.Start_date_w as Start_date_w, 
+        group.Start_station_number as station_number, 
+        group.Start_station as station_name,
+        COUNT(casual_member) as total_casual_member,
+        COUNT(member_member) as total_member_member,
         COUNT(capitalbikedateweek_01.Start_station) as total_start_bikes,
         COUNT(capitalbikedateweek_01.End_station_number) as total_end_bikes,
         SUM(capitalbikedateweek_01.Duration) as total_duration;
 };
 
 STORE bikeweek_duration_SUM INTO '$Output' USING org.apache.pig.piggybank.storage.CSVExcelStorage(',', 'YES_MULTILINE');
-STORE station_week INTO '$Output2' USING org.apache.pig.piggybank.storage.CSVExcelStorage(',', 'YES_MULTILINE');
+STORE station_week_use INTO '$Output2' USING org.apache.pig.piggybank.storage.CSVExcelStorage(',', 'YES_MULTILINE');
