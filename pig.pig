@@ -14,8 +14,6 @@ capitalbike = LOAD '$Input'
     );
 --dump capitalbike;
 
-   ens hem d'assegurar que tenen el format correcte,
-   per això s'aplica una explesió regular */
 capitalbikeregexdate = filter capitalbike by
     (Start_date MATCHES '^([0-9]{4})-([0-1][0-9])-([0-3][0-9])\\s([0-1][0-9]|[2][0-3]):([0-5][0-9]):([0-5][0-9])$')
     and (End_date MATCHES '^([0-9]{4})-([0-1][0-9])-([0-3][0-9])\\s([0-1][0-9]|[2][0-3]):([0-5][0-9]):([0-5][0-9])$');
