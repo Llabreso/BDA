@@ -54,4 +54,4 @@ bikeweek_duration_SUM = FOREACH bikeweek GENERATE group, SUM(capitalbikedateweek
 stationweek_COUNT = FOREACH stationweek GENERATE group, COUNT(capitalbikedateweek_01.Bike_number) as COUNT;
 
 STORE bikeweek_duration_SUM INTO '$Output' USING org.apache.pig.piggybank.storage.CSVExcelStorage(',', 'YES_MULTILINE');
-STORE bikeweek_duration_SUM INTO '$Output2' USING org.apache.pig.piggybank.storage.CSVExcelStorage(',', 'YES_MULTILINE');
+STORE stationweek_COUNT INTO '$Output2' USING org.apache.pig.piggybank.storage.CSVExcelStorage(',', 'YES_MULTILINE');
