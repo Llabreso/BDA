@@ -49,7 +49,7 @@ bikeweek = GROUP  capitalbikedateweek_01 BY (Bike_number,Start_date_wy,Start_dat
 
 bikeweek_duration_SUM = FOREACH bikeweek GENERATE group, SUM(capitalbikedateweek_01.Duration) as SUM;
 
-station_week = GROUP bike_rental_week BY (Start_station_number, Start_station, Start_date_wy, Start_date_w);
+station_week = GROUP capitalbikedateweek_01 BY (Start_station_number, Start_station, Start_date_wy, Start_date_w);
 
 station_week_use = FOREACH station_week { 
     casual_member = FILTER capitalbikedateweek_01 BY Member_type == 'Casual';
