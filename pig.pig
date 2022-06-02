@@ -53,7 +53,7 @@ bikeweek_duration_SUM = FOREACH bikeweek GENERATE group, SUM(capitalbikedateweek
 
 stationweek_COUNT = FOREACH stationweek GENERATE group, COUNT(capitalbikedateweek_01.Bike_number) as COUNT;
 
-station_week = FOREACH station_week { 
+station_week = FOREACH stationweek { 
     casualM = FILTER capitalbikedateweek_01 BY Member_type == 'Casual';
     memberM = FILTER capitalbikedateweek_01 BY Member_type == 'Member';
     GENERATE 
