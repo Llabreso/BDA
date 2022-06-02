@@ -57,10 +57,10 @@ station_week = FOREACH stationweek {
     casualM = FILTER capitalbikedateweek_01 BY Member_type == 'Casual';
     memberM = FILTER capitalbikedateweek_01 BY Member_type == 'Member';
     GENERATE 
-        group.Start_date_wy as Start_date_wy, 
-        group.Start_date_w as Start_date_w, 
-        group.Start_station_number as station_number, 
-        group.Start_station as station_name,
+        Start_date_wy as Start_date_wy, 
+        Start_date_w as Start_date_w, 
+        Start_station_number as station_number, 
+        Start_station as station_name,
         COUNT(casualM) as casuals,
         COUNT(memberM) as members,
         COUNT(capitalbikedateweek_01.Start_station) as total_start_bikes,
