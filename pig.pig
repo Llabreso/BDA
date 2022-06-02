@@ -52,8 +52,8 @@ bikeweek_duration_SUM = FOREACH bikeweek GENERATE group, SUM(capitalbikedateweek
 station_week = GROUP bike_rental_week BY (Start_station_number, Start_station, Start_date_wy, Start_date_w);
 
 station_week_use = FOREACH station_week { 
-    casual_member = FILTER bike_rental_week BY Member_type == 'Casual';
-    member_member = FILTER bike_rental_week BY Member_type == 'Member';
+    casual_member = FILTER capitalbikedateweek_01 BY Member_type == 'Casual';
+    member_member = FILTER capitalbikedateweek_01 BY Member_type == 'Member';
     GENERATE 
         group.Start_date_wy as Start_date_wy, 
         group.Start_date_w as Start_date_w, 
@@ -61,9 +61,9 @@ station_week_use = FOREACH station_week {
         group.Start_station as station_name,
         COUNT(casual_member) as total_casual_member,
         COUNT(member_member) as total_member_member,
-        COUNT(bike_rental_week.Start_station) as total_start_bikes,
-        COUNT(bike_rental_week.End_station_number) as total_end_bikes,
-        SUM(bike_rental_week.Duration) as total_duration;
+        COUNT(capitalbikedateweek_01.Start_station) as total_start_bikes,
+        COUNT(capitalbikedateweek_01.End_station_number) as total_end_bikes,
+        SUM(capitalbikedateweek_01.Duration) as total_duration;
 };
 
 STORE bikeweek_duration_SUM INTO '$Output' USING org.apache.pig.piggybank.storage.CSVExcelStorage(',', 'YES_MULTILINE');
